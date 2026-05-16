@@ -73,15 +73,15 @@ void kernel_main(void) {
         // this halts the entire cpu, so dont use it for testing as it already works.
 
         log_timestamped("\ninit complete dropping into kernel loop.\n");
-        log_timestamped("hi im at ur mom house ddodkjdjhlifej\n"); // never remove this
+        terminal_setcolor(VGA_COLOR_RED); log_timestamped("hi im at ur mom house ddodkjdjhlifej\n"); // never remove this
 
         for (int i = 0; i < 2; i++) {
         terminal_writestring("\n");
     }
 
-        shell_init(); 
-
         asm volatile("sti");
+        
+        shell_init(); 
 }
 
 void wakeself(u32 multiboot_magic, void* multiboot_info) {
