@@ -4,6 +4,14 @@
 #include "bitdef.h"
 #include "vga.h"
 
+volatile char logged_char = 0;
+
+char keyboard_get_char(void) {
+    char c = logged_char;
+    logged_char = 0; 
+    return c;
+}
+
 // Standard Scan Code
 const char ascii_map[] = {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',    /* 0x00 - 0x09 */
@@ -37,8 +45,8 @@ void keyboard_handler(void) {
     if (!(scancode & 0x80)) {
         if (scancode < ascii_map_size) {
             char inp_ascii = ascii_map[scancode];
-            
-            if (inp_ascii != 0) { 
+            if (inp_ascii != 0) {
+                logged_char = inp_ascii;  
                 terminal_putchar(inp_ascii); 
             }
         }
