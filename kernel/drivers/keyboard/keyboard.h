@@ -12,5 +12,6 @@ extern const char ascii_map[];
 extern const u32 ascii_map_size;
 
 void keyboard_handler(void);
+char keyboard_get_char(void); 
 
 #endif
