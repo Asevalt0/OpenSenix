@@ -1,1 +1,7 @@
-for some info: 0.0.1 isnt functional lol, 0.0.2 will come soon and is in development!
+# OpenSenix
+
+## Version 0.05
+Added a lot of stuff and the shell is a work in progress. It does absolutely nothing right now but boots either way. 
+
+### Additionally:
+I have some stuff in store that I am planning to add that would be really cool for later.
