@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-2.0-only
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
@@ -7,6 +8,9 @@
 #define VGA_WIDTH  80
 #define VGA_HEIGHT 25
 #define VGA_MEMORY 0xB8000U
+
+extern u16 cursor_x;
+extern u16 cursor_y;
 
 enum vga_color {
     VGA_COLOR_BLACK = 0,
@@ -44,5 +48,7 @@ void terminal_putentryat(char c, u8 color, size_t x, size_t y);
 void terminal_putchar(char c);
 void terminal_write(const char* data, size_t size);
 void terminal_writestring(const char* data);
+void cursor(int show);
+void terminal_scroll();
 
 #endif

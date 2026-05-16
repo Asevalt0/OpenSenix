@@ -1,4 +1,5 @@
-#include "include/vga_constants.h"
+// SPDX-License-Identifier: GPL-2.0-only
+#include "vga.h"
 #include "bitdef.h"
 #include "string.h"
 
@@ -39,15 +40,18 @@ void terminal_putentryat(char c, u8 color, size_t x, size_t y) {
 void terminal_putchar(char c) {
     if (c == '\n') {
         terminal_column = 0;
-        if (++terminal_row == VGA_HEIGHT) terminal_row = 0;
-        return;
+        terminal_row++;
+    } else {
+        terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
+
+        if (++terminal_column == VGA_WIDTH) {
+            terminal_column = 0;
+            terminal_row++;
+        }
     }
 
-    terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
-    if (++terminal_column == VGA_WIDTH) {
-        terminal_column = 0;
-        if (++terminal_row == VGA_HEIGHT) terminal_row = 0;
-    }
+    if (terminal_row >= VGA_HEIGHT)
+        terminal_scroll();
 }
 
 void terminal_write(const char* data, size_t size) {
@@ -56,4 +60,37 @@ void terminal_write(const char* data, size_t size) {
 
 void terminal_writestring(const char* data) {
     terminal_write(data, strlen(data));
+}
+
+void backspace() {
+
+}
+
+void cursor(int show) {
+    int current_index = terminal_row * 80 + terminal_column;
+
+    volatile u16* vga_ptr = (volatile u16*)VGA_MEMORY;
+
+    if (show) {
+        vga_ptr[current_index] = '#' | (VGA_COLOR_LIGHT_BLUE << 8); 
+    } else {
+    
+        vga_ptr[current_index] = ' ' | (VGA_COLOR_WHITE << 8);
+    }
+}
+
+void terminal_scroll() {
+    memmove(
+        terminal_buffer,
+        terminal_buffer + VGA_WIDTH,
+        VGA_WIDTH * (VGA_HEIGHT - 1) * 2
+    );
+
+    // clear last line
+    for (size_t x = 0; x < VGA_WIDTH; x++) {
+        terminal_buffer[(VGA_HEIGHT - 1) * VGA_WIDTH + x] =
+            vga_entry(' ', terminal_color);
+    }
+
+    terminal_row = VGA_HEIGHT - 1;
 }

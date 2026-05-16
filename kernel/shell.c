@@ -1,6 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-only
 #include "shell.h"
+#include "vga.h"
+#include "envs.h"
 #include "string.h"
-#include "video/include/vga_constants.h"
 
 void cmd_help(void);
 void cmd_version(void);
@@ -16,7 +18,7 @@ static const shell_command_t command_table[] = {
 
 
 void cmd_help(void) {
-    terminal_writestring("Available commands:\n");
+    terminal_writestring("Available commands:");
     for (size_t i = 0; i < COMMAND_COUNT; i++) {
         terminal_writestring("  ");
         terminal_writestring(command_table[i].name);
@@ -27,7 +29,9 @@ void cmd_help(void) {
 }
 
 void cmd_version(void) {
-    terminal_writestring("openSenix Kernel v0.0.1\n");
+    terminal_writestring(NAME);
+    terminal_writestring(" Kernel v0.05\n");
+    terminal_writestring("\n\nCopyright (C) OpenSenix Kernel. All rights reserved.\n");
 }
 
 void cmd_clear(void) {
@@ -46,5 +50,11 @@ void shell_run_command(const char *cmd) {
 
     terminal_writestring("Error: Command '");
     terminal_writestring(cmd);
-    terminal_writestring("' not recognized. Type 'help'.\n");
+    terminal_writestring("' not recognized. Type 'help'.");
+}
+
+
+extern void shell_init() {
+    terminal_setcolor(VGA_COLOR_WHITE);
+    cmd_version();
 }

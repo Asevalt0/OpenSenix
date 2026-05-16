@@ -1,7 +1,7 @@
+// SPDX-License-Identifier: GPL-2.0-only
 /* added this to have some easier readable code
 this isnt needed but i still prefer keeping it.*/
 
-/* GPL license 2.0 only*/
 
 #ifndef X86CONSTANTS_H
 #define X86CONSTANTS_H

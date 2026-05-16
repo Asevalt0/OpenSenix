@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-2.0-only
 #include <efi.h>
 #include <efilib.h>
 
@@ -6,6 +7,8 @@ EFIAPI
 efi_main (EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
 {
   InitializeLib(ImageHandle, SystemTable);
-  Print(L"Hello\n");
+
+
+  Print(L"Hello");
   return EFI_SUCCESS;
 }

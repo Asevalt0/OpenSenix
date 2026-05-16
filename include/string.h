@@ -1,4 +1,4 @@
-/* GPL license 2.0 only*/
+// SPDX-License-Identifier: GPL-2.0-only
 
 #ifndef STR_H
 #define STR_H
@@ -13,8 +13,13 @@ void *memcpy(void *dest, const void *src, size_t count);
 
 void strcpy(char *dest, const char *src);
 
+void *memmove(void *dest, const void *src, size_t count);
+
 // returning funcs
 
 size_t strlen(const char *str);
+
+int strcmp(const char *a, const char *b);
+
 
 #endif
